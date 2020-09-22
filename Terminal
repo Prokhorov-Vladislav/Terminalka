@@ -11,15 +11,12 @@ int main()
     scanf("%d %d", &a, &b);
     module=sqrt(a*a+b*b);
     arg=asin(b/module);
-    if(a<0 && b<0){
-        arg+=PI;  
-    }  
-        else if(a<0 && b>0){
-            arg=-arg+PI;
+    if(a<0){
+        arg=PI-arg;  
+    } 
+        else if(a>0 && b<0){
+            arg+=2*PI;
         }
-            else if(a>0 && b<0){
-                arg+=2*PI;
-            }
     printf("введите 0, чтобы получить модуль и аргумент комплексного числа\n");
     printf("введите 1, чтобы получить обратное число к комплексному\n");
     printf("введите 2, чтобы возвести в степень комплексное число\n");
