@@ -1,0 +1,69 @@
+#include <stdio.h>
+#include <math.h>
+#define PI 3.1415926535
+int main()
+{
+    int a=0, b=0, n=0, s=0, w=0;
+    float an=0, bn=0, modulen=0, argn=0;
+    float as=0, bs=0, modules=0, args=0;
+    float module=0, arg=0, c=0, d=0;
+    printf("Введите вещественную и мнимую часть соотвественно\n");
+    scanf("%d %d", &a, &b);
+    module=sqrt(a*a+b*b);
+    arg=asin(b/module);
+    if(a<0 && b<0){
+        arg+=PI;  
+    }  
+        else if(a<0 && b>0){
+            arg=-arg+PI;
+        }
+            else if(a>0 && b<0){
+                arg+=2*PI;
+            }
+    printf("введите 0, чтобы получить модуль и аргумент комплексного числа\n");
+    printf("введите 1, чтобы получить обратное число к комплексному\n");
+    printf("введите 2, чтобы возвести в степень комплексное число\n");
+    printf("введите 3, чтобы извлечь корень из комплексного числа\n");
+    scanf("%d", &w);
+    
+    if(w==0){
+        printf("модуль = %.2f аргумент = %f\n", module, arg);     
+    }
+    
+    if(w==1){
+        c=a/(module*module);
+        d=-b/(module*module);
+        printf("z(^-1) = %.2f ", c);
+        printf("+ i");
+        printf("(%.2f) \n", d);
+    }
+    
+    if(w==2){
+        printf("введите степень, в которую необходимо возвести комплексного\n");
+        scanf("%d", &n);
+        modulen=pow(module, n);
+        argn=n*arg;
+        an=modulen*cos(argn);
+        bn=modulen*sin(argn);
+        printf("z(^n) = %.2f ", an);
+        printf("+ i");
+        printf("(%.2f) \n", bn);
+    }
+    
+    if(w==3){
+        printf("Введите степень, корень которой необходимо получить\n");
+        scanf("%d", &s);
+        modules=pow(module, 1/s);
+        for (int i=0; i<s; i++){
+            args=arg/s+2*PI*i/s;
+            as=modules*cos(args);
+            bs=modules*sin(args);
+            printf("z(root)%d", i+1);
+            printf("= %.2f ", as);
+            printf("+ i");
+            printf("(%.2f) \n", bs);
+        }
+    }
+
+    return 0;
+}
