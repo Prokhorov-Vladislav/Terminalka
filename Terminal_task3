@@ -1,0 +1,65 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <locale>
+#include <windows.h>
+int main()
+{
+    setlocale(LC_ALL, "RUSSIAN");
+    float y = 0, sum = 0, c = 0;
+    int n = 0, m = 0, rang=0;
+    scanf("%d%d", &m, &n);
+    rang = n;
+    float* otvet = (float*)malloc(n * sizeof(float));
+    for (int i = 0; i < n; i++) {
+        otvet[i] = 0;
+    }
+    float** a = (float**)malloc(n * sizeof(float));
+    for (int i = 0; i < n; i++) {
+        a[i] = (float*)malloc(m * sizeof(float));
+    }
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            scanf("%f", &a[i][j]);
+        }
+    }
+
+    for (int i = 0; i < n - 1; i++) {
+        if (a[i][i] == 0) {
+            for (int r = 0; r < m; r++) {
+                c = a[i][r];
+                a[i][r] = a[i + 1][r];
+                a[i + 1][r] = c;
+            }
+        }
+        for (int g = i + 1; g < n; g++) {
+            if (a[g][i] == 0) {
+                continue;
+            }
+            y = a[g][i] / (float)a[i][i];
+            for (int j = 0; j < m; j++) {
+                a[g][j] = a[g][j] + (-1 * a[i][j] * y);
+            }
+        }
+        printf("\n");
+    }
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            printf("%f ", a[i][j]);
+        }
+        printf("\n");
+    }
+    printf("\n");
+    for (int i = 0; i < n; i++) {
+        sum = 0;
+        for (int j = 0; j < m; j++) {
+            sum += a[i][j] * a[i][j];
+        }
+        if (sum == 0) {
+            rang = i;
+            break;
+        }
+    }
+    printf("Вектора образуют линейно независимую систему ранга %d", rang);
+    return 0;
+}
