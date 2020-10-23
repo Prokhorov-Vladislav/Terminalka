@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -6,8 +7,8 @@
 int main()
 {
     setlocale(LC_ALL, "RUSSIAN");
-    float y = 0, sum = 0, c = 0;
-    int n = 0, m = 0, rang=0;
+    float y = 0, sum = 0, c = 0, s = 0;
+    int n = 0, m = 0, rang = 0;
     scanf("%d%d", &m, &n);
     rang = n;
     float* otvet = (float*)malloc(n * sizeof(float));
@@ -24,32 +25,45 @@ int main()
         }
     }
 
-    for (int i = 0; i < n - 1; i++) {
-        if (a[i][i] == 0) {
-            for (int r = 0; r < m; r++) {
-                c = a[i][r];
-                a[i][r] = a[i + 1][r];
-                a[i + 1][r] = c;
+    for (int i = 0, v=0; i < n - 1; (i++, v++)) {
+        s = 0;
+        if (a[i][v] == 0) {
+            for (int u = 0; u < n; u++) {
+                s += a[u][v] * a[u][v];
+            }
+            if (s == 0) {
+                i--;
+                continue;
+            }
+            for (int q = i + 1; q < n; q++) {
+                if (a[q][v] != 0) {
+                    for (int r = 0; r < m; r++) {
+                        c = a[i][r];
+                        a[i][r] = a[q][r];
+                        a[q][r] = c;
+                    }
+                }
             }
         }
         for (int g = i + 1; g < n; g++) {
-            if (a[g][i] == 0) {
+            if (a[g][v] == 0) {
                 continue;
             }
-            y = a[g][i] / (float)a[i][i];
+            y = a[g][v] / (float)a[i][v];
             for (int j = 0; j < m; j++) {
                 a[g][j] = a[g][j] + (-1 * a[i][j] * y);
             }
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < m; j++) {
+                    printf("%f ", a[i][j]);
+                }
+                printf("\n");
+            }
+            printf("\n");
         }
         printf("\n");
     }
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < m; j++) {
-            printf("%f ", a[i][j]);
-        }
-        printf("\n");
-    }
-    printf("\n");
+
     for (int i = 0; i < n; i++) {
         sum = 0;
         for (int j = 0; j < m; j++) {
