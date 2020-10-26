@@ -25,7 +25,7 @@ int main()
         }
     }
 
-    for (int i = 0, v=0; i < n - 1; (i++, v++)) {
+    for (int i = 0, v = 0; i < n - 1; (i++, v++)) {
         s = 0;
         if (a[i][v] == 0) {
             for (int u = 0; u < n; u++) {
@@ -53,17 +53,16 @@ int main()
             for (int j = 0; j < m; j++) {
                 a[g][j] = a[g][j] + (-1 * a[i][j] * y);
             }
-            for (int i = 0; i < n; i++) {
-                for (int j = 0; j < m; j++) {
-                    printf("%f ", a[i][j]);
-                }
-                printf("\n");
-            }
-            printf("\n");
+            
+        }
+    }
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            printf("%f ", a[i][j]);
         }
         printf("\n");
     }
-
+    printf("\n");
     for (int i = 0; i < n; i++) {
         sum = 0;
         for (int j = 0; j < m; j++) {
@@ -74,6 +73,13 @@ int main()
             break;
         }
     }
-    printf("Вектора образуют линейно независимую систему ранга %d", rang);
+
+    if (rang == n) {
+        printf("Вектора образуют линейно независимую систему ранга %d", rang);
+    }
+    else {
+        printf("Вектора линейно зависивые\n");
+        printf("Ранг этой системы векторов %d", rang);
+    }
     return 0;
 }
