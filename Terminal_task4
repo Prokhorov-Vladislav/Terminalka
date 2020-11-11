@@ -2,12 +2,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include <locale>
-#include <windows.h>
 #define epsilon 1e-7
 int main()
 {
-    setlocale(LC_ALL, "RUSSIAN");
     float y = 0, sum = 0, c = 0, s = 0;
     int n = 0, p = 0, ch = 0;
     scanf("%d", &n);
