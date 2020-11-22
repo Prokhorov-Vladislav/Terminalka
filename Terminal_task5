@@ -1,0 +1,90 @@
+#include <stdio.h>
+#include <math.h>
+#define epsilon 1e-7
+int main()
+{
+    int n=0;
+    int per=0;
+    float c=0;
+    float det=1;
+    scanf("%d", &n);
+    float*otvet=(float*)malloc(n*sizeof(float));
+    float** mus=(float**)malloc(n*sizeof(float*));
+    for(int i=0; i<n; i++){
+        mus[i]=(float*)malloc(n*sizeof(float));
+    }
+    float* b=(float*)malloc(n*sizeof(float));
+    for(int i=0; i<n; i++){
+        for(int j=0; j<n; j++){
+            scanf("%d", &per);
+            mus[i][j]=per;
+        }
+        scanf("%d", &per);
+        b[i]=per;
+    }
+    per=0;
+    float**new=(float**)malloc(n*sizeof(float*));
+        for(int i=0; i<n; i++){
+            new[i]=(float*)malloc(n*sizeof(float));
+        }
+    for(int q=0; q<n; q++){
+        for(int i=0; i<n; i++){
+            for(int j=0; j<n; j++){
+                new[i][j]=mus[i][j];
+            } 
+        } 
+        for(int y=0; y<n; y++){
+            new[y][q]=b[y];
+        }
+        for(int i=0; i<n-1; i++){
+            if(fabs(new[i][i])>epsilon){
+                for(int l=i+1; l<n; l++){
+                    c=-new[l][i]/new[i][i];
+                    for(int j=l; j<n; j++){
+                        for(int g=0; g<n; g++){
+                            new[j][g]+=c*new[i][g];
+                        }
+                    }
+                }
+            }
+            else{
+                for(int p=0; p<n; p++){
+                    new[i][p]+=new[i+1][p];
+                }
+                i--;
+            }
+        }
+        
+
+        det=1;
+        for(int m=0; m<n; m++){
+            det*=new[m][m];
+        }
+        otvet[q]=det;
+    }
+    for(int i=0; i<n-1; i++){
+        if(fabs(mus[i][i])>epsilon){
+            for(int l=i+1; l<n; l++){
+                c=-mus[l][i]/mus[i][i];
+                for(int j=l; j<n; j++){
+                    for(int g=0; g<n; g++){
+                        mus[j][g]+=c*mus[i][g];
+                    }
+                }
+            }
+        }
+        else{
+            for(int p=0; p<n; p++){
+                mus[i][p]+=mus[i+1][p];
+            }
+        }
+    }
+    det=1;
+    for(int y=0; y<n; y++){
+        det*=mus[y][y];
+    }
+    for(int i=0; i<n; i++){
+        printf("%f\n", otvet[i]/det);
+    }
+    return 0;
+}
