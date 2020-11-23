@@ -1,0 +1,116 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#define epsilon 1e-7
+
+int main()
+{
+    int n=0, nn=0;
+    float per=0, c=0, det=1;
+    scanf("%d", &n);
+    nn=2*n;
+    float** mus=(float**)malloc(n*sizeof(float*));
+    for(int i=0; i<n; i++){
+        mus[i]=(float*)malloc((nn)*sizeof(float));
+    }
+    float** new=(float**)malloc(n*sizeof(float*));
+    for(int i=0; i<n; i++){
+        new[i]=(float*)malloc(n*sizeof(float));
+    }
+    for(int i=0; i<n; i++){
+        for(int j=0; j<n; j++){
+            scanf("%f", &per);
+            mus[i][j]=per;
+        }
+        mus[i][n+i]=1;
+    }
+    for(int i=0; i<n; i++){
+        for(int j=0; j<n; j++){
+            new[i][j]=mus[i][j];
+        }
+    }
+    for(int i=0; i<n-1; i++){           //=>определитель
+        if(fabs(new[i][i])>epsilon){
+            for(int l=i+1; l<n; l++){
+                c=-new[l][i]/new[i][i];
+                for(int j=l; j<n; j++){
+                    for(int g=0; g<n; g++){
+                        new[j][g]+=c*new[i][g];
+                    }
+                }
+            }
+        }
+        else{
+            for(int p=0; p<n; p++){
+                new[i][p]+=new[i+1][p];
+            }
+            i--;
+        }
+    } 
+    for(int i=0; i<n; i++){
+        det*=new[i][i];
+    }                                  //<=определитель
+
+    if(fabs(det)<epsilon){
+        printf("FALSE");
+        return 0;
+    }
+    for(int i=0; i<n-1; i++){          //=>иду вниз
+        if(fabs(mus[i][i])>epsilon){
+            for(int l=i+1; l<n; l++){
+                c=-mus[l][i]/mus[i][i];
+                for(int j=l; j<n; j++){
+                    for(int g=0; g<nn; g++){
+                        mus[j][g]+=c*mus[i][g];
+                    }
+                }
+            }
+        }
+        else{
+            for(int p=i; p<n; p++){
+                if(fabs(mus[p][i])>0){
+                    for(int y=0; y<nn; y++){
+                        mus[i][y]+=mus[p][y];
+                    }
+                }
+            }
+            i--;
+        }
+    }//<=иду вниз
+    for(int i=n-1; i>0; i--){ //=>иду вверх
+        if(fabs(mus[i][i])>epsilon){
+            for(int l=i-1; l>=0; l--){
+                c=-mus[l][i]/mus[i][i];
+                for(int j=l; j>=0; j--){
+                    for(int g=0; g<nn; g++){
+                        mus[j][g]+=c*mus[i][g];
+                    }
+                }
+            }
+        }
+        else{
+            for(int p=i; p<n; p++){
+                if(fabs(mus[p][i])>0){
+                    for(int y=0; y<nn; y++){
+                        mus[i][y]+=mus[p][y];
+                    }
+                }
+            }
+            i--;
+        }
+    }//<=иду вверх
+
+    for(int i=0; i<n; i++){
+        for(int j=n; j<nn; j++){
+            mus[i][j]=mus[i][j]/mus[i][i];
+        }
+    }
+    
+    for(int i=0; i<n; i++){
+        for(int j=n; j<nn; j++){
+            printf("%.3f ", mus[i][j]);
+        }
+        printf("\n");
+    }
+    return 0;
+}
