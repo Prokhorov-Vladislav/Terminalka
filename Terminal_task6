@@ -89,7 +89,7 @@ int main()
             }
         }
         else{
-            for(int p=i; p<n; p++){
+            for(int p=i; p>=0; p--){
                 if(fabs(mus[p][i])>0){
                     for(int y=0; y<nn; y++){
                         mus[i][y]+=mus[p][y];
