@@ -6,7 +6,8 @@
 void p(float**mus, int m, int n){
     for(int i=0; i<m; i++){
         for(int j=0; j<n; j++){
-            printf("%f ", mus[i][j]);
+            if(fabs(mus[i][j])<epsilon) mus[i][j]=0;
+            printf("%.4f ", mus[i][j]);
         }
         printf("\n");
     }
@@ -15,7 +16,7 @@ void p(float**mus, int m, int n){
 int main()
 {
     int m=0, n=0;
-    int per=0;
+    float per=0;
     float c=0;
     scanf("%d%d", &m, &n);
     float**mus=(float**)malloc(m*sizeof(float*));
@@ -27,7 +28,7 @@ int main()
             scanf("%f", &mus[i][j]);
         }
     }
-    for(int i=0, v=0; i<m-1; i++, v++){
+    for(int i=0, v=0; i<m-1 && v<n; i++, v++){
         if(fabs(mus[i][v])>epsilon){
             for(int l=i+1; l<m; l++){
                 per=-mus[l][v]/mus[i][v];
@@ -51,6 +52,7 @@ int main()
             i--;
         }
     }
+    
     int kol=m;
     int q=0;
     float z=0;
@@ -93,9 +95,6 @@ int main()
             }
         }
     }
-    /*for(int i=0; i<n; i++){
-        printf("%d ", zav[i]);
-    }*/
     int pravda=0;
     int ch=kol;
     for(int i=0; i<q; i++){
@@ -120,6 +119,7 @@ int main()
             for(int u=r+1; u<n; u++){
                 new[zav[i]][r]-=new[u][r]*mus[i][u]; 
             }
+            new[zav[i]][r]=new[zav[i]][r]/mus[i][zav[i]];
         }
     }
     p(new, n, q);
