@@ -115,6 +115,13 @@ int main()
             }
         }
     }
+    for(int r=0; r<q; r++){
+        for(int i=0; i<kol; i++){
+            for(int u=r+1; u<n; u++){
+                new[zav[i]][r]-=new[u][r]*mus[i][u]; 
+            }
+        }
+    }
     p(new, n, q);
     return 0;
 }
