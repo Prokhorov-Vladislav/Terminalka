@@ -59,7 +59,7 @@ int main()
     for(int i=0; i<m; i++){
         z=0;
         for(int j=0; j<n; j++){
-            z+=mus[i][j];
+            z+=mus[i][j]*mus[i][j];
         }
         if(fabs(z)<epsilon) kol--;
     }
