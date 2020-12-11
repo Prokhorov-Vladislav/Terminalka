@@ -52,7 +52,8 @@ int main()
             i--;
         }
     } // шел вниз
-    
+    p(mus, m, n);
+    printf("\n");
     int kol=m;
     int q=0;
     float z=0;
@@ -77,8 +78,8 @@ int main()
             }
         }
     } // шёл вверх
-    //p(mus, m, n);
-    //printf("\n");
+    p(mus, m, n);
+    printf("\n");
     float**new=(float**)malloc(n*sizeof(float*));
     for(int i=0; i<n; i++){
         new[i]=(float*)malloc(q*sizeof(float));
@@ -88,16 +89,19 @@ int main()
             new[i][j]=0;
         }
     }
+    int pravda=0;
+    int chitat=0;
     int*zav=(int*)malloc(n*sizeof(int));
-    for(int i=0; i<kol; i++){
+    for(int i=0; i<m; i++){
         for(int j=0; j<n; j++){
             if(fabs(mus[i][j])>epsilon){
-                zav[i]=j; // номера столбцов в которых стоят зависиммые перемнные
+                pravda=false;
+                zav[chitat]=j; // номера столбцов в которых стоят зависиммые перемнные
+                chitat++;
                 break;
             }
         }
     }
-    int pravda=0;
     int ch=kol; // вспомогательные переменные
     for(int i=0; i<q; i++){
         for(int j=0; j<n; j++){
@@ -119,11 +123,16 @@ int main()
     //p(new, n, q);
     //printf("\n");
     for(int r=0; r<q; r++){
-        for(int i=0; i<kol; i++){
+        for(int i=0, w=0; i<kol && w<kol; i++, w++){
             for(int u=r+1; u<n; u++){
-                new[zav[i]][r]-=new[u][r]*mus[i][u]; 
+                new[zav[i]][r]-=new[u][r]*mus[w][u]; 
             }
-            new[zav[i]][r]=new[zav[i]][r]/mus[i][zav[i]]; 
+            if(mus[w][zav[i]]>epsilon){
+                new[zav[w]][r]=new[zav[i]][r]/mus[w][zav[i]];
+            }
+            else{
+                i--;
+            }
         }
     }// из каждой ненулевой строчки выражаю зависимую переменную и делю на коэффицент перед переменной
     p(new, n, q);
